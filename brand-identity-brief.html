@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand & Identity Creative Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #18181f;
+    --border: #2a2a38;
+    --border-bright: #3d3d52;
+    --neon: #00f5a0;
+    --hot: #ff3366;
+    --text: #e8e8f0;
+    --muted: #5a5a78;
+    --label: #8888aa;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    font-size: 13px;
+  }
+
+  /* HEADER */
+  .header {
+    position: relative;
+    padding: 64px 64px 56px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .header-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(0,245,160,0.03) 79px, rgba(0,245,160,0.03) 80px),
+      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(0,245,160,0.03) 79px, rgba(0,245,160,0.03) 80px);
+    pointer-events: none;
+  }
+  .header-glow {
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 360px; height: 360px;
+    background: radial-gradient(circle, rgba(0,245,160,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--neon);
+    margin-bottom: 28px;
+  }
+  .header-tag::before {
+    content: '';
+    display: block;
+    width: 28px; height: 1px;
+    background: var(--neon);
+    box-shadow: 0 0 6px var(--neon);
+  }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(44px, 8vw, 88px);
+    font-weight: 800;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .h1-solid { display: block; color: var(--text); }
+  .h1-outline {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(232,232,240,0.18);
+  }
+  .h1-neon {
+    display: block;
+    color: var(--neon);
+    text-shadow: 0 0 40px rgba(0,245,160,0.3);
+  }
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+  }
+  .hdot { color: var(--border-bright); }
+
+  /* STICKY PROGRESS */
+  .sticky {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: rgba(10,10,15,0.94);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 64px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 52px;
+  }
+  .prog-label { font-size: 10px; letter-spacing: 0.25em; color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+  .prog-track {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    position: relative;
+  }
+  .prog-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: var(--neon);
+    transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 0 0 12px var(--neon), 0 0 30px rgba(0,245,160,0.2);
+    width: 0%;
+  }
+  .prog-fill::after {
+    content: '';
+    position: absolute;
+    right: -4px; top: -3px;
+    width: 8px; height: 8px;
+    background: var(--neon);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--neon);
+  }
+  .prog-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--neon);
+    min-width: 42px;
+    text-align: right;
+  }
+
+  /* MAIN */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 64px 32px 100px;
+  }
+
+  /* SECTIONS */
+  .section { margin-bottom: 76px; }
+
+  .sec-header { margin-bottom: 28px; }
+  .sec-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .sec-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .sec-num {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--neon);
+    letter-spacing: 0.2em;
+    background: rgba(0,245,160,0.08);
+    border: 1px solid rgba(0,245,160,0.2);
+    padding: 3px 10px;
+    flex-shrink: 0;
+  }
+  .sec-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-bright), transparent);
+  }
+
+  /* FIELDS */
+  .fg { display: grid; gap: 16px; }
+  .fg2 { grid-template-columns: 1fr 1fr; }
+  @media(max-width:620px){
+    .fg2 { grid-template-columns: 1fr; }
+    .header { padding: 36px 24px 28px; }
+    .sticky { padding: 0 24px; }
+    .main { padding: 36px 16px 80px; }
+  }
+
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  .field label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--label);
+    font-weight: 500;
+  }
+  .field input,
+  .field textarea {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 13px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    border-radius: 0;
+    -webkit-appearance: none;
+  }
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--neon);
+    box-shadow: 0 0 0 1px var(--neon), inset 0 0 24px rgba(0,245,160,0.025);
+  }
+  .field input::placeholder,
+  .field textarea::placeholder { color: var(--muted); }
+  .field textarea { min-height: 88px; }
+  .field textarea.tall { min-height: 110px; }
+
+  /* PILLS */
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    padding: 8px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--label);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    border-radius: 0;
+  }
+  .pill:hover { border-color: var(--border-bright); color: var(--text); }
+  .pill.on {
+    border-color: var(--neon);
+    color: var(--neon);
+    background: rgba(0,245,160,0.07);
+    box-shadow: 0 0 14px rgba(0,245,160,0.12);
+  }
+
+  /* SLIDERS */
+  .sliders { display: grid; gap: 20px; }
+  .slider-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .slider-ends {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%; height: 2px;
+    background: var(--border);
+    outline: none;
+    cursor: pointer;
+    border-radius: 0;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px;
+    background: var(--neon);
+    border-radius: 0;
+    box-shadow: 0 0 10px var(--neon);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 14px; height: 14px;
+    background: var(--neon);
+    border: none;
+    border-radius: 0;
+  }
+
+  /* ACTIONS */
+  .actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 52px;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+  }
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 15px 30px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.18s;
+    border-radius: 0;
+  }
+  .btn-p {
+    background: var(--neon);
+    color: #050a07;
+  }
+  .btn-p:hover { background: #fff; box-shadow: 0 0 30px rgba(0,245,160,0.35); }
+  .btn-s {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-s:hover { border-color: var(--text); }
+  .btn-d {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-d:hover { border-color: var(--hot); color: var(--hot); }
+
+  /* SUMMARY */
+  .summary {
+    display: none;
+    margin-top: 52px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .summary.show { display: block; animation: riseUp 0.4s cubic-bezier(0.4,0,0.2,1) both; }
+  @keyframes riseUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+  .sum-top {
+    padding: 32px 40px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+  }
+  .sum-top h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .sum-top h2 em { color: var(--neon); font-style: normal; }
+  .sum-date { font-size: 9px; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; }
+  .sum-body { padding: 8px 40px 40px; }
+  .sum-row {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(42,42,56,0.6);
+    align-items: start;
+  }
+  .sk { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--neon); padding-top: 1px; }
+  .sv { font-size: 12px; color: var(--text); line-height: 1.6; }
+  .sv.empty { color: var(--muted); font-style: italic; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: var(--surface);
+    border: 1px solid var(--neon);
+    color: var(--neon);
+    padding: 12px 22px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    box-shadow: 0 0 30px rgba(0,245,160,0.12);
+    transform: translateY(60px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    z-index: 9999;
+    border-radius: 0;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-grid"></div>
+  <div class="header-glow"></div>
+  <div class="header-tag">Creative Document</div>
+  <h1>
+    <span class="h1-solid">Brand</span>
+    <span class="h1-outline">&amp; Identity</span>
+    <span class="h1-neon">Brief</span>
+  </h1>
+  <div class="header-meta">
+    <span>8 Sections</span>
+    <span class="hdot">·</span>
+    <span>Fill in each field</span>
+    <span class="hdot">·</span>
+    <span>Generate summary when done</span>
+  </div>
+</header>
+
+<div class="sticky">
+  <span class="prog-label">Progress</span>
+  <div class="prog-track"><div class="prog-fill" id="pFill"></div></div>
+  <div class="prog-pct" id="pPct">0%</div>
+</div>
+
+<main class="main">
+
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">The Project</div>
+      <div class="sec-row"><span class="sec-num">01</span><div class="sec-line"></div></div>
+    </div>
+    <div class="fg fg2">
+      <div class="field"><label>Brand / Company Name</label><input id="brandName" type="text" placeholder="e.g. Apex Studio" /></div>
+      <div class="field"><label>Industry / Category</label><input id="industry" type="text" placeholder="e.g. Sustainable Fashion" /></div>
+    </div>
+    <div class="fg" style="margin-top:16px">
+      <div class="field"><label>Project Description</label><textarea id="projectDesc" placeholder="New brand, rebrand, or refresh? Describe the scope."></textarea></div>
+      <div class="field"><label>Background &amp; Context</label><textarea id="background" placeholder="What led to this project? History, pivots, important context?"></textarea></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Objectives</div>
+      <div class="sec-row"><span class="sec-num">02</span><div class="sec-line"></div></div>
+    </div>
+    <div class="fg">
+      <div class="field"><label>Primary Goal</label><input id="primaryGoal" type="text" placeholder="e.g. Establish a premium identity that differentiates us from competitors" /></div>
+      <div class="field"><label>Secondary Goals</label><textarea id="secondaryGoals" placeholder="e.g. Increase brand recognition, unify across channels, attract younger audience..."></textarea></div>
+      <div class="field"><label>What does success look like in 6 months?</label><textarea id="success" placeholder="e.g. Consistent brand application, strong audience response, earned media..."></textarea></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Target Audience</div>
+      <div class="sec-row"><span class="sec-num">03</span><div class="sec-line"></div></div>
+    </div>
+    <div class="fg fg2">
+      <div class="field"><label>Primary Audience</label><input id="audiencePrimary" type="text" placeholder="e.g. Women 28–42, urban professionals" /></div>
+      <div class="field"><label>Secondary Audience</label><input id="audienceSecondary" type="text" placeholder="e.g. Gift-buyers, press &amp; media" /></div>
+    </div>
+    <div class="fg" style="margin-top:16px">
+      <div class="field"><label>Audience Values &amp; Motivations</label><textarea id="audienceValues" placeholder="What do they care about? What drives their decisions?"></textarea></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Brand Personality</div>
+      <div class="sec-row"><span class="sec-num">04</span><div class="sec-line"></div></div>
+    </div>
+    <div class="pills" id="pillGrid"></div>
+    <div class="field" style="margin-top:16px">
+      <label>Anything else about voice or character?</label>
+      <textarea id="personalityExtra" placeholder="e.g. Warm but authoritative. Never overly casual. Confident without arrogance."></textarea>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Brand Positioning</div>
+      <div class="sec-row"><span class="sec-num">05</span><div class="sec-line"></div></div>
+    </div>
+    <div class="sliders">
+      <div class="slider-wrap"><div class="slider-ends"><span>Traditional</span><span>Modern</span></div><input type="range" id="s1" min="1" max="10" value="5" /></div>
+      <div class="slider-wrap"><div class="slider-ends"><span>Playful</span><span>Serious</span></div><input type="range" id="s2" min="1" max="10" value="5" /></div>
+      <div class="slider-wrap"><div class="slider-ends"><span>Accessible / Mass</span><span>Exclusive / Premium</span></div><input type="range" id="s3" min="1" max="10" value="5" /></div>
+      <div class="slider-wrap"><div class="slider-ends"><span>Quiet / Understated</span><span>Bold / Expressive</span></div><input type="range" id="s4" min="1" max="10" value="5" /></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Competition</div>
+      <div class="sec-row"><span class="sec-num">06</span><div class="sec-line"></div></div>
+    </div>
+    <div class="fg">
+      <div class="field"><label>Key Competitors</label><input id="competitors" type="text" placeholder="e.g. Brand A, Brand B, Brand C" /></div>
+      <div class="field"><label>What sets this brand apart?</label><textarea id="differentiation" placeholder="Your unique value proposition — visually and strategically."></textarea></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Creative Direction</div>
+      <div class="sec-row"><span class="sec-num">07</span><div class="sec-line"></div></div>
+    </div>
+    <div class="fg">
+      <div class="field"><label>Visual References / Inspiration</label><textarea id="inspiration" placeholder="Brands, aesthetics, moods, or images that feel right. Links welcome."></textarea></div>
+      <div class="field"><label>What to Avoid</label><textarea id="avoid" placeholder="Styles, colors, industry clichés to steer clear of."></textarea></div>
+      <div class="fg fg2">
+        <div class="field"><label>Color Preferences</label><input id="colors" type="text" placeholder="e.g. Monochrome with one electric accent" /></div>
+        <div class="field"><label>Typography Feel</label><input id="typography" type="text" placeholder="e.g. Sharp sans-serif, editorial weight" /></div>
+      </div>
+      <div class="field"><label>Deliverables Required</label><textarea id="deliverables" placeholder="e.g. Logo suite, color palette, type system, brand guidelines, social templates..."></textarea></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-title">Logistics</div>
+      <div class="sec-row"><span class="sec-num">08</span><div class="sec-line"></div></div>
+    </div>
+    <div class="fg fg2">
+      <div class="field"><label>Timeline / Launch Date</label><input id="timeline" type="text" placeholder="e.g. 8 weeks, launch by Q3 2026" /></div>
+      <div class="field"><label>Budget Range</label><input id="budget" type="text" placeholder="e.g. $10k–$20k" /></div>
+      <div class="field"><label>Decision Maker(s)</label><input id="stakeholders" type="text" placeholder="Who has final approval?" /></div>
+      <div class="field"><label>Key Stakeholders</label><input id="team" type="text" placeholder="Who needs to be in the loop?" /></div>
+    </div>
+    <div class="field" style="margin-top:16px">
+      <label>Anything else the creative team should know?</label>
+      <textarea class="tall" id="notes" placeholder="Constraints, sensitivities, non-negotiables, or anything that helps the team hit the ground running."></textarea>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="btn btn-p" onclick="generateSummary()">Generate Brief</button>
+    <button class="btn btn-s" onclick="copyBrief()">Copy to Clipboard</button>
+    <button class="btn btn-d" onclick="clearAll()">Clear All</button>
+  </div>
+
+  <div class="summary" id="summaryPanel">
+    <div class="sum-top">
+      <h2>Brand &amp; Identity<br><em>Creative Brief</em></h2>
+      <div class="sum-date" id="sumDate"></div>
+    </div>
+    <div class="sum-body" id="sumBody"></div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const traits = ["Bold","Minimal","Playful","Sophisticated","Warm","Authoritative","Rebellious","Nurturing","Innovative","Timeless","Edgy","Friendly","Luxurious","Grounded","Witty","Aspirational","Honest","Energetic","Disruptive","Premium"];
+  const grid = document.getElementById('pillGrid');
+  traits.forEach(t => {
+    const p = document.createElement('div');
+    p.className = 'pill';
+    p.textContent = t;
+    p.onclick = () => { p.classList.toggle('on'); updateProgress(); };
+    grid.appendChild(p);
+  });
+
+  const tracked = ['brandName','industry','projectDesc','background','primaryGoal','secondaryGoals','success','audiencePrimary','audienceValues','competitors','differentiation','inspiration','deliverables','timeline'];
+
+  function updateProgress() {
+    let n = tracked.filter(id => { const el = document.getElementById(id); return el && el.value.trim(); }).length;
+    if (document.querySelectorAll('.pill.on').length) n++;
+    const pct = Math.round(n / (tracked.length + 1) * 100);
+    document.getElementById('pFill').style.width = pct + '%';
+    document.getElementById('pPct').textContent = pct + '%';
+  }
+
+  tracked.forEach(id => { const el = document.getElementById(id); if(el) el.addEventListener('input', updateProgress); });
+
+  const v = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+
+  function sLabel(id, a, b) {
+    const n = parseInt(document.getElementById(id).value);
+    return n <= 3 ? `Leans ${a} (${n}/10)` : n >= 8 ? `Leans ${b} (${n}/10)` : `Balanced (${n}/10)`;
+  }
+
+  function generateSummary() {
+    const sel = [...document.querySelectorAll('.pill.on')].map(p => p.textContent);
+    const rows = [
+      ['Brand Name', v('brandName')], ['Industry', v('industry')],
+      ['Project', v('projectDesc')], ['Background', v('background')],
+      ['Primary Goal', v('primaryGoal')], ['Secondary Goals', v('secondaryGoals')],
+      ['Success Looks Like', v('success')], ['Primary Audience', v('audiencePrimary')],
+      ['Secondary Audience', v('audienceSecondary')], ['Audience Values', v('audienceValues')],
+      ['Brand Personality', sel.join(', ')], ['Personality Notes', v('personalityExtra')],
+      ['Traditional / Modern', sLabel('s1','Traditional','Modern')],
+      ['Playful / Serious', sLabel('s2','Playful','Serious')],
+      ['Access / Premium', sLabel('s3','Accessible','Exclusive')],
+      ['Quiet / Bold', sLabel('s4','Understated','Bold')],
+      ['Competitors', v('competitors')], ['Differentiation', v('differentiation')],
+      ['Visual Inspiration', v('inspiration')], ['Avoid', v('avoid')],
+      ['Colors', v('colors')], ['Typography', v('typography')],
+      ['Deliverables', v('deliverables')], ['Timeline', v('timeline')],
+      ['Budget', v('budget')], ['Decision Maker', v('stakeholders')],
+      ['Stakeholders', v('team')], ['Notes', v('notes')],
+    ];
+
+    document.getElementById('sumDate').textContent = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}).toUpperCase();
+    document.getElementById('sumBody').innerHTML = rows.map(([k, val]) =>
+      `<div class="sum-row"><div class="sk">${k}</div><div class="sv${!val?' empty':''}">${val||'—'}</div></div>`
+    ).join('');
+
+    const panel = document.getElementById('summaryPanel');
+    panel.classList.add('show');
+    setTimeout(() => panel.scrollIntoView({ behavior:'smooth', block:'start' }), 80);
+    showToast('Brief generated');
+  }
+
+  function copyBrief() {
+    const sel = [...document.querySelectorAll('.pill.on')].map(p => p.textContent);
+    const txt = [
+      'BRAND & IDENTITY CREATIVE BRIEF','================================','',
+      `Brand: ${v('brandName')||'—'} | Industry: ${v('industry')||'—'}`, '',
+      'PROJECT', v('projectDesc')||'—', '', 'BACKGROUND', v('background')||'—', '',
+      'OBJECTIVES',`Primary: ${v('primaryGoal')||'—'}`,`Secondary: ${v('secondaryGoals')||'—'}`,`Success: ${v('success')||'—'}`, '',
+      'AUDIENCE',`Primary: ${v('audiencePrimary')||'—'}`,`Secondary: ${v('audienceSecondary')||'—'}`,`Values: ${v('audienceValues')||'—'}`, '',
+      'BRAND PERSONALITY', sel.join(', ')||'—', v('personalityExtra')||'', '',
+      'POSITIONING',sLabel('s1','Traditional','Modern'),sLabel('s2','Playful','Serious'),sLabel('s3','Accessible','Exclusive'),sLabel('s4','Understated','Bold'), '',
+      'COMPETITION',`Competitors: ${v('competitors')||'—'}`,`Differentiation: ${v('differentiation')||'—'}`, '',
+      'CREATIVE DIRECTION',`Inspiration: ${v('inspiration')||'—'}`,`Avoid: ${v('avoid')||'—'}`,`Colors: ${v('colors')||'—'}`,`Typography: ${v('typography')||'—'}`,`Deliverables: ${v('deliverables')||'—'}`, '',
+      'LOGISTICS',`Timeline: ${v('timeline')||'—'}`,`Budget: ${v('budget')||'—'}`,`Decision Maker: ${v('stakeholders')||'—'}`,`Team: ${v('team')||'—'}`,`Notes: ${v('notes')||'—'}`,
+    ].join('\n');
+    navigator.clipboard.writeText(txt).then(() => showToast('Copied'));
+  }
+
+  function clearAll() {
+    if (!confirm('Clear everything?')) return;
+    document.querySelectorAll('input[type=text], textarea').forEach(el => el.value = '');
+    document.querySelectorAll('input[type=range]').forEach(el => el.value = 5);
+    document.querySelectorAll('.pill.on').forEach(p => p.classList.remove('on'));
+    document.getElementById('summaryPanel').classList.remove('show');
+    updateProgress();
+    showToast('Cleared');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
